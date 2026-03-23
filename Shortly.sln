@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "shortly", "shortly\shortly.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbUtilities", "dbUtilities\dbUtilities.csproj", "{3194F203-AF8E-44CF-9369-1C137694B1B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbUtilities.Tests", "dbUtilities.Tests\dbUtilities.Tests.csproj", "{C8D580C9-1F27-44C6-BE67-D46F13B50819}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{3194F203-AF8E-44CF-9369-1C137694B1B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3194F203-AF8E-44CF-9369-1C137694B1B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3194F203-AF8E-44CF-9369-1C137694B1B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8D580C9-1F27-44C6-BE67-D46F13B50819}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8D580C9-1F27-44C6-BE67-D46F13B50819}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8D580C9-1F27-44C6-BE67-D46F13B50819}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8D580C9-1F27-44C6-BE67-D46F13B50819}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
