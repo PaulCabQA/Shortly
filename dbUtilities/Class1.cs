@@ -49,21 +49,36 @@ public static class SqliteDb
     } 
 
 // create a function that accepts a url and shortens it by generating a random string of 6 characters and inserting the original url and the shortened url into the urls table
+
+//modify the function to check if the original url already exists in the database and return the existing shortened url if it does, otherwise generate a new shortened url and insert it into the database
     public static string ShortenUrl(string databasePath, string originalUrl)
     {
-        var shortenedUrl = GenerateRandomString(6);
-
         using var connection = CreateConnection(databasePath);
         connection.Open();
 
-        using var command = connection.CreateCommand();
-        command.CommandText = @"
+        using var selectCommand = connection.CreateCommand();
+        selectCommand.CommandText = @"
+            SELECT shortened_url
+            FROM urls
+            WHERE original_url = @originalUrl;
+        ";
+        selectCommand.Parameters.AddWithValue("@originalUrl", originalUrl);
+
+        var existingShortCode = selectCommand.ExecuteScalar() as string;
+        if (!string.IsNullOrEmpty(existingShortCode))
+        {
+            return existingShortCode;
+        }
+
+        var shortenedUrl = GenerateRandomString(6);
+        using var insertCommand = connection.CreateCommand();
+        insertCommand.CommandText = @"
             INSERT INTO urls (original_url, shortened_url)
             VALUES (@originalUrl, @shortenedUrl);
         ";
-        command.Parameters.AddWithValue("@originalUrl", originalUrl);
-        command.Parameters.AddWithValue("@shortenedUrl", shortenedUrl);
-        command.ExecuteNonQuery();
+        insertCommand.Parameters.AddWithValue("@originalUrl", originalUrl);
+        insertCommand.Parameters.AddWithValue("@shortenedUrl", shortenedUrl);
+        insertCommand.ExecuteNonQuery();
 
         return shortenedUrl;
     }
