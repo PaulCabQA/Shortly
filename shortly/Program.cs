@@ -5,6 +5,7 @@ var originalUrl = args.Length > 0 ? args[0] : "https://example.com/some/long/pat
 
 SqliteDb.CreateUrlsTable(databasePath);
 
+// This comment has been added to test git pull
 
 //prompt the user to enter a url to shorten
 Console.WriteLine("Enter a URL to shorten:");
