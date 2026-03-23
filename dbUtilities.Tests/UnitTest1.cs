@@ -36,6 +36,23 @@ public class UrlShorteningTests
     }
 
     [Fact]
+    public void ShortenUrl_ReturnsExistingCode_WhenUrlAlreadyExists()
+    {
+        var databasePath = GetTempDbPath();
+        const string originalUrl = "https://example.com/already-shortened";
+
+        SqliteDb.CreateUrlsTable(databasePath);
+
+        var firstShortCode = SqliteDb.ShortenUrl(databasePath, originalUrl);
+        var secondShortCode = SqliteDb.ShortenUrl(databasePath, originalUrl);
+
+        Assert.Equal(firstShortCode, secondShortCode);
+        Assert.Equal(1, CountRows(databasePath));
+
+        Cleanup(databasePath);
+    }
+
+    [Fact]
     public void GetOriginalUrl_ReturnsNull_WhenShortCodeDoesNotExist()
     {
         var databasePath = GetTempDbPath();
@@ -52,6 +69,17 @@ public class UrlShorteningTests
     private static string GetTempDbPath()
     {
         return Path.Combine(Path.GetTempPath(), $"shortly-tests-{Guid.NewGuid():N}.db");
+    }
+
+    private static int CountRows(string databasePath)
+    {
+        using var connection = SqliteDb.CreateConnection(databasePath);
+        connection.Open();
+
+        using var command = connection.CreateCommand();
+        command.CommandText = "SELECT COUNT(*) FROM urls;";
+
+        return Convert.ToInt32(command.ExecuteScalar());
     }
 
     private static void Cleanup(string databasePath)
